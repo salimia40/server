@@ -1,0 +1,22 @@
+db.offers.find();
+
+db.offers
+  .aggregate([
+    { $match: { user: ObjectId("5dff7b48d52c8119b1c3c7a7"), expired: true } },
+    { $group: { _id: null, total: { $sum: "$remained" } } }
+  ])
+  .pretty();
+
+db.bills
+  .aggregate([
+    { $match: { userId: 791888505 } },
+    { $project: { userId: 1, profit: 1, isSell: 1, amount: 1, commition: 1 } },
+    {
+      $group: {
+        _id: null,
+        profit: { $sum: "$profit" },
+        commition: { $sum: "$commition" }
+      }
+    }
+  ])
+  .pretty();
